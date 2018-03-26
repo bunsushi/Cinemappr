@@ -23,8 +23,6 @@ $(document).ready(function () {
         return false;
     });
 
-    // TODO: write addGoogleMaps function
-
     // Passes data from the index page to populate the search form on theaters page
     $.ajax({
         url: "/location",
@@ -43,14 +41,6 @@ $(document).ready(function () {
         url: "/getData",
         method: "GET"
     }).then(response => getMovieData(response));
-
-    // Allows user to resubmit search from theaters display page
-    $("#start").on("click", function (event) {
-        $.ajax({
-            url: "/getData",
-            method: "GET"
-        }).then((response) => getMovieData(response))
-    })
 
     function getMovieData(response) {
         var uniqueTheatreArray = [];
@@ -75,9 +65,6 @@ $(document).ready(function () {
                 displayObject[theaterData[key].names] = theaterData[key].names + theaterData[key].titles;
             }
         }
-
-
-        // Call addGoogleMaps function here, passing theaterData
 
         var holder = {};
         theaterData.forEach(function (element) {

@@ -26,11 +26,10 @@ app.post('/theaters', urlencodedParser, (req, res) => {
 
 app.get('/location', (req, res) => res.json(searchObj))
 
-
 app.get('/getData', (req, res) => {
     const date = searchObj.date
     const zip = searchObj.zipcode
-    reqPromise('http://data.tmsapi.com/v1.1/movies/showings?startDate=' + date + '&zip=' + zip + '&api_key=2dp7mrfsmqm3cgupxx4vh5e6')
+    reqPromise('http://data.tmsapi.com/v1.1/movies/showings?startDate=' + date + '&zip=' + zip + '&api_key=2tevkc8394dkkyk4ezzc8t5m')
 
     .then((response) => {
         res.json(response)
