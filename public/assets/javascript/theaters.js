@@ -7,6 +7,7 @@ window.initMap = function () {
     });
 }
 
+<<<<<<< HEAD
 $(document).ready(function () {
     console.log("theater page linked")
 
@@ -20,11 +21,32 @@ $(document).ready(function () {
     function loadingGifGone(){
         $("#loadingGif").hide();
     }
+=======
+//adding a loading gif to wait for all the ajax to complete
+
+$(document).ready(function () {
+    console.log("theater page linked")
+
+    // show and hide movie title and theater query options
+    $(".more-options").on("click", function (event) {
+        if ($("#options").text() == " More options") {
+            $("#options").text(" Hide options");
+            $("#toggle-sign").attr("class", "glyphicon glyphicon-minus-sign");
+        } else {
+            $("#options").text(" More options");
+            $("#toggle-sign").attr("class", "glyphicon glyphicon-plus-sign");
+        }
+        $("#show-hide").fadeToggle("slow", "swing");
+
+        return false;
+    });
+>>>>>>> cd62cb115bae2e65cce5b8411b75a22fccc81f04
 
     // TODO: write addGoogleMaps function
+
     //Need this variable so that I can close all the unwanted infoWindow for maps
     var openInfoWindow;
-    // Passes data from the index page to populate the serach form on theaters page
+    // Passes data from the index page to populate the search form on theaters page
     $.ajax({
         url: "/location",
         method: "GET"
@@ -43,12 +65,22 @@ $(document).ready(function () {
         method: "GET"
     }).then(response => getMovieData(response));
 
-    // Allows user to resubmit search from theaters display page
-    $("#start").on("click", function (event) {
-        $.ajax({
-            url: "/getData",
-            method: "GET"
-        }).then((response) => getMovieData(response))
+    // Handles posting data to server from secondary search form
+    $("#resubmit-search").submit(function (event) {
+        event.preventDefault();
+
+        var $form = $(this),
+            zip = $form.find("input[name='zipcode']").val(),
+            date = $form.find("input[name='date']").val(),
+            radius = $form.find("input[name='radius']").val(),
+            title = $form.find("input[name='title']").val(),
+            theater = $form.find("input[name='theater']").val(),
+            url = $form.attr("action");
+
+        var posting = $.post(url, { zipcode: zip, date: date, radius: radius, title: title, theater: theater });
+        posting.done(function (data) {
+            getMovieData(data);
+        })
     })
 
     function getMovieData(response) {
@@ -75,9 +107,6 @@ $(document).ready(function () {
             }
         }
 
-
-        // Call addGoogleMaps function here, passing theaterData
-
         var holder = {};
         theaterData.forEach(function (element) {
             var identifier = element.theater;
@@ -99,7 +128,7 @@ $(document).ready(function () {
                 parse_data(theaterData2[i].theater, theaterData);
             }
         }
-        
+
         loopThroughTheaters();
 
         function parse_data(my_theater_name, theaterData) {
@@ -157,7 +186,7 @@ $(document).ready(function () {
                     jumbotron.append("<p id='showtimes'>" + final_theater_object.movies_with_times[k].showtimes[l]);
                 }
             }
-          
+
             // If there is input for movie theater AND movie title
             if ($("#movie-theater").val() === my_theater_name && $("#movie-title").val()) {
                 displayTheaterName();
@@ -203,28 +232,39 @@ $(document).ready(function () {
                 }
             }
 
-          var myTheaterNameForGooglePlaces = my_theater_name.replace(/\s/g, "+");
+            var myTheaterNameForGooglePlaces = my_theater_name.replace(/\s/g, "+");
             console.log(myTheaterNameForGooglePlaces);
 
-            var queryGooglePlaces = 'https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/place/textsearch/json?query=' + myTheaterNameForGooglePlaces + '&key=AIzaSyDBkZBVW-dII2-MbnRtJL8Qk99eMR-sjbs'
-            //   AIzaSyD9hHd2f2VIqsuz_zHv5m64UXiZgom6sLY  
+
+            // var queryGooglePlaces = 'https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/place/textsearch/json?query=' + myTheaterNameForGooglePlaces + '&key=AIzaSyD9hHd2f2VIqsuz_zHv5m64UXiZgom6sLY'
+            //AIzaSyASKnjScxmEcAhuUUchHloDaPz3X3q7KV0
+            // Tegan's API Key: AIzaSyC2pDiPtNXvox6k0Cgit7UHEEvGTjnkG8s
+            // var queryGooglePlaces = 'https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/place/textsearch/json?query=' + myTheaterNameForGooglePlaces + '&key=AIzaSyC2pDiPtNXvox6k0Cgit7UHEEvGTjnkG8s'
+
+            // var queryGooglePlaces = 'https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/place/textsearch/json?query=' + myTheaterNameForGooglePlaces + '&key=AIzaSyDBkZBVW-dII2-MbnRtJL8Qk99eMR-sjbs'
+            
+            // Sam's API Key: AIzaSyAsCHeUDG0zhBRHXHgYQM2dIls9fYXgy-k
+            var queryGooglePlaces = 'https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/place/textsearch/json?query=' + myTheaterNameForGooglePlaces + '&key=AIzaSyAsCHeUDG0zhBRHXHgYQM2dIls9fYXgy-k'
+
+            // 530e369a263ef99c35face8a2433c85f51330ca2
+
             $.ajax({
                 url: queryGooglePlaces,
                 type: "GET"
             }).then(function (event) {
                 console.log(event);
-                
+
                 // function to place all the markers on our theater locations
                 theaterMarkers = { lat: event.results[0].geometry.location.lat, lng: event.results[0].geometry.location.lng };
                 var marker = new google.maps.Marker({
                     position: { lat: event.results[0].geometry.location.lat, lng: event.results[0].geometry.location.lng },
                     map: map,
                 })
-                
+
                 //this will recenter the google maps to the last marker placed
                 map.setCenter({ lat: event.results[0].geometry.location.lat, lng: event.results[0].geometry.location.lng });
                 //adding infoWindow to display direction icons, address, and theater names
-                var contentString = "<h3>" + my_theater_name + "</h3>" + '<button id="facebook" style="cursor:pointer;" onClick="window.open(\'https://www.google.com/maps/dir/' + myTheaterNameForGooglePlaces + '\',\'_newtab\');">Directions</button>'
+                var contentString = "<h3>" + my_theater_name + "</h3>" + '<button id="directions" style="cursor:pointer;" onClick="window.open(\'https://www.google.com/maps/dir/' + myTheaterNameForGooglePlaces + '\',\'_newtab\');">Directions</button>'
                 var infoWindow = new google.maps.InfoWindow({})
 
                 // this will have only one infowindow up at a time.
@@ -241,7 +281,13 @@ $(document).ready(function () {
                     };
                 })(marker, contentString, infoWindow));//using closures
 
-            }) 
+            })
+
+            //adding the spinning wheel
+
+
         }
     }
 })
+
+

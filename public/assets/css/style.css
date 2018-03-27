@@ -12,7 +12,7 @@ body {
 .welcome::after {
   content: "";
   background-size: 100% 100%;
-  opacity: 0.6;
+  opacity: .2;
   top: 0;
   left: 0;
   bottom: 0;
@@ -34,13 +34,17 @@ a {
 
 /* Navigation Styles */
 .navbar {
-  background-color: #d3353e; }
+  background-color: #af3333;
+  font-family: "Pacifico", cursive; }
 
 /* .navbar-home {
     background: linear-gradient(to bottom, #d3353e 0%, rgba(0,0,0,0) 100%);
     border-bottom: none;
 } */
 .navbar-default .navbar-nav li a {
+  color: white; }
+
+.navbar-default .navbar-nav li a:hover {
   color: white; }
 
 .navbar-brand {
@@ -50,14 +54,22 @@ a {
   position: absolute; }
 
 .navbar-default .navbar-brand {
-  color: #d3353e;
+  color: #af3333;
   font-size: 150px;
   text-shadow: -5px 0 #fff, 0 5px #fff, 5px 0 #fff, 0 -5px #fff; }
 
+.navbar-default .navbar-brand:hover {
+  color: #af3332; }
+
 #logo {
   font-family: "Pacifico", cursive;
-  font-size: 40px;
+  font-size: 50px;
   padding: 20px 0; }
+
+#about-link {
+  padding: 20px 0;
+  font-family: "Open Sans", sans-serif;
+  font-size: 15px; }
 
 /* Landing Page Styles */
 .landing-page {
@@ -73,12 +85,26 @@ form {
   /* margin: 0 10px; */
   /* opacity: .95; */ }
 
+.more-options:hover {
+  cursor: pointer; }
+
+#options {
+  display: inline-block; }
+
+#show-hide {
+  display: none; }
+
 .submit-btn {
   width: 100%;
   color: white;
-  background-color: #d3353e;
+  background-color: #af3333;
   padding: 10px;
   font-weight: 700; }
+
+.submit-btn:hover {
+  background-color: #af3332;
+  cursor: pointer;
+  box-shadow: 3px 3px 7px rgba(33, 33, 33, 0.5); }
 
 /* Results Page Styles */
 #results, .content {
@@ -86,10 +112,17 @@ form {
 
 #showtimes {
   display: inline-block;
-  margin: 10px;
-  padding: 10px;
-  border-radius: 15px;
-  border: 2px solid #d3353e; }
+  margin-right: 10px;
+  padding: 15px;
+  border-radius: 5px;
+  background-color: #af3333;
+  color: white;
+  letter-spacing: 1px; }
+
+#showtimes:hover {
+  box-shadow: 3px 3px 7px rgba(33, 33, 33, 0.5);
+  cursor: pointer;
+  background-color: #af3332; }
 
 #search-results {
   background-color: #ebebeb;
@@ -104,6 +137,14 @@ form {
 #map-results img {
   position: fixed;
   max-width: 585px; }
+
+#directions {
+  background-color: #af3333;
+  display: inline-block;
+  margin-right: 10px;
+  padding: 5px;
+  border-radius: 5px;
+  color: white; }
 
 /* About Page Styles */
 .content h1 {
