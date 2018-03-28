@@ -7,6 +7,21 @@ window.initMap = function () {
     });
 }
 
+<<<<<<< HEAD
+$(document).ready(function () {
+    console.log("theater page linked")
+
+    //creating a loading gif to wait for all our data to be received from ajax.  Decided to use setTimeout instead of hiding the loading gif right after ajax completes because we are using two different ajax calls which has the loading gif blink quickly making it look unprofessional/janky.
+    $(document).bind("ajaxSend", function(){
+        $("#loadingGif").show();
+    }).bind("ajaxComplete", function() {
+        //once all the ajax is completed, there's a 3 second countdown before eerything is displayed.
+        setTimeout(loadingGifGone, 3000);
+    })
+    function loadingGifGone(){
+        $("#loadingGif").hide();
+    }
+=======
 //adding a loading gif to wait for all the ajax to complete
 
 $(document).ready(function () {
@@ -25,6 +40,7 @@ $(document).ready(function () {
 
         return false;
     });
+>>>>>>> cd62cb115bae2e65cce5b8411b75a22fccc81f04
 
     // TODO: write addGoogleMaps function
 
@@ -252,18 +268,19 @@ $(document).ready(function () {
                 var contentString = "<h3>" + my_theater_name + "</h3>" + '<button id="directions" style="cursor:pointer;" onClick="window.open(\'https://www.google.com/maps/dir/' + myTheaterNameForGooglePlaces + '\',\'_newtab\');">Directions</button>'
                 var infoWindow = new google.maps.InfoWindow({})
 
+                // this will have only one infowindow up at a time.
                 google.maps.event.addListener(marker, 'click', (function (marker, contentString, infoWindow) {
                     return function () {
 
-                        if (openInfoWindow)
+                        if (openInfoWindow){
                             openInfoWindow.close();
-
+                        }
                         infoWindow.setContent(contentString);
                         openInfoWindow = infoWindow;
                         infoWindow.open(map, marker);
 
                     };
-                })(marker, contentString, infoWindow));
+                })(marker, contentString, infoWindow));//using closures
 
             })
 
