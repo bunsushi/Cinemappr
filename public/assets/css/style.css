@@ -110,6 +110,9 @@ form {
 #results, .content {
   margin-top: 120px; }
 
+.anchor {
+  margin-top: 120px; }
+
 #showtimes {
   display: inline-block;
   margin-right: 10px;

@@ -26,6 +26,25 @@ $(document).ready(function () {
         return false;
     });
 
+    // // The function actually applying the offset
+    // function offsetAnchor() {
+    //     if (location.hash.length !== 0) {
+    //         window.scrollTo(window.scrollX, window.scrollY - 120);
+    //     }
+    // }
+
+    // // Captures click events of all <a> elements with href starting with #
+    // $(document).on('click', '[href^="#"]', function (event) {
+    //     // Click events are captured before hashchanges. Timeout
+    //     // causes offsetAnchor to be called after the page jump.
+    //     window.setTimeout(function () {
+    //         offsetAnchor();
+    //     }, 0);
+    // });
+
+    // // Set the offset when entering page with hash present in the url
+    // window.setTimeout(offsetAnchor, 0);
+
     $(document).bind("ajaxSend", function () {
         $("#loadingGif").show();
     }).bind("ajaxComplete", function () {
@@ -164,12 +183,14 @@ $(document).ready(function () {
             var final_theater_object = {};
             final_theater_object.name = my_theater_name;
             final_theater_object.movies_with_times = array_of_movies_at_this_theater_with_show_times;
+            var myTheaterNameForGooglePlaces = my_theater_name.replace(/\s/g, "+");
+
 
             var jumbotron = $("<div class='showtime-listings'>");
 
             function displayTheaterName() {
                 $("#movies").append(jumbotron);
-                jumbotron.append("<h3>" + my_theater_name);
+                jumbotron.append("<h3 id=" + myTheaterNameForGooglePlaces + ">" + my_theater_name);
             }
 
             function displayShowtimes() {
@@ -223,19 +244,19 @@ $(document).ready(function () {
                 }
             }
 
-            var myTheaterNameForGooglePlaces = my_theater_name.replace(/\s/g, "+");
+            // var myTheaterNameForGooglePlaces = my_theater_name.replace(/\s/g, "+");
             console.log(myTheaterNameForGooglePlaces);
 
 
             // var queryGooglePlaces = 'https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/place/textsearch/json?query=' + myTheaterNameForGooglePlaces + '&key=AIzaSyD9hHd2f2VIqsuz_zHv5m64UXiZgom6sLY'
             //AIzaSyASKnjScxmEcAhuUUchHloDaPz3X3q7KV0
             // Tegan's API Key: AIzaSyC2pDiPtNXvox6k0Cgit7UHEEvGTjnkG8s
-            // var queryGooglePlaces = 'https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/place/textsearch/json?query=' + myTheaterNameForGooglePlaces + '&key=AIzaSyC2pDiPtNXvox6k0Cgit7UHEEvGTjnkG8s'
+            var queryGooglePlaces = 'https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/place/textsearch/json?query=' + myTheaterNameForGooglePlaces + '&key=AIzaSyC2pDiPtNXvox6k0Cgit7UHEEvGTjnkG8s'
 
             // var queryGooglePlaces = 'https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/place/textsearch/json?query=' + myTheaterNameForGooglePlaces + '&key=AIzaSyDBkZBVW-dII2-MbnRtJL8Qk99eMR-sjbs'
 
             // Sam's API Key: AIzaSyAsCHeUDG0zhBRHXHgYQM2dIls9fYXgy-k
-            var queryGooglePlaces = 'https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/place/textsearch/json?query=' + myTheaterNameForGooglePlaces + '&key=AIzaSyAsCHeUDG0zhBRHXHgYQM2dIls9fYXgy-k'
+            // var queryGooglePlaces = 'https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/place/textsearch/json?query=' + myTheaterNameForGooglePlaces + '&key=AIzaSyAsCHeUDG0zhBRHXHgYQM2dIls9fYXgy-k'
 
             // 530e369a263ef99c35face8a2433c85f51330ca2
 
@@ -260,6 +281,8 @@ $(document).ready(function () {
 
                 google.maps.event.addListener(marker, 'click', (function (marker, contentString, infoWindow) {
                     return function () {
+                        window.location.href = "#" + myTheaterNameForGooglePlaces;
+                        window.scrollTo(window.scrollX, window.scrollY - 150);
 
                         if (openInfoWindow)
                             openInfoWindow.close();
